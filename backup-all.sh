@@ -1,13 +1,12 @@
 #!/bin/bash
 
-# by piscue
-
 # Setting variables
-backup_path="/home/core/backups"
-#backup_path="/home/core/backups"
-tar_opts="--exclude='/var/run/*'"
-cd "${BASH_SOURCE%/*}" || exit
+bin_source="/root/docker-backup-scripts"
+backup_path="/backup-docker"
+tar_opts="--exclude=var/run --exclude=data/addons/data/core_mariadb/databases --exclude=data/databases --exclude=data/backup"
 
+
+cd "${BASH_SOURCE%/*}" || exit
 mkdir -p $backup_path
 
 echo starting docker backup
@@ -18,7 +17,7 @@ echo - backing up images
 
 echo ""
 
-source backup-images.sh
+source backup-images.sh || exit
 
 echo ""
 
@@ -26,14 +25,6 @@ echo - backing up volumes
 
 echo ""
 
-source backup-volumes.sh
+source backup-volumes.sh || exit
 
-echo ""
-
-echo - upload to dropbox
-
-echo ""
-
-source sync-dropbox.sh
-
-echo ""
+echo "Done."

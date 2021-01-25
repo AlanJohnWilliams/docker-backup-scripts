@@ -6,7 +6,11 @@ for i in `docker inspect --format='{{.Name}}' $(docker ps -q) | cut -f2 -d\/`
   	--volumes-from $container_name \
   	-v $backup_path:/backup \
   	-e TAR_OPTS="$tar_opts" \
-  	piscue/docker-backup \
+  	alanjohnwilliams/docker-backup \
         backup "$container_name/$container_name-volume.tar.xz"
-	echo "OK"
+	if [ $? -ne 0 ]; then
+    		echo "Error"
+        else
+    		echo "OK"
+	fi
 done
