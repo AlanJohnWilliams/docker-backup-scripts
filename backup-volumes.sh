@@ -13,7 +13,7 @@ for i in `docker inspect --format='{{.Name}}' $(docker ps -q) | cut -f2 -d\/`
 	docker run --rm \
   	--volumes-from $container_name \
   	-v $backup_path:/backup \
-  	-e RSYNC_OPTS="$tar_opts" \
+  	-e RSYNC_OPTS="$rsync_opts" \
   	alanjohnwilliams/docker-rsync \
         backup "/backup/$container_name"
 
